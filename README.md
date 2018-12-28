@@ -1,4 +1,4 @@
-# pri-python
+# PRIpy ❤
 
 ## Dependências
 * pip (pip install gtts)
