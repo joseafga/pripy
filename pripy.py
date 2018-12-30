@@ -24,13 +24,33 @@ def load(callback=None):
     # verifica gravacoes
     for phase in phases:
         if 'songs/%s' % phase[1] not in recs:
-            # TODO: gravar automaticamente
-            # gravar()
+            # TODO: fazer assincrono
             print('Gravando nova frase: %s' % phase[0])
+            doRecord(phase[0], *phase[1].rsplit('.'))
 
-    # chama função de callback
+    # chama funcao de callback
     if (callable(callback)):
         callback()
+
+
+def doRecord(phase, filename, ext='mp3'):
+    """ Realiza gravacao da frase pelo gTTS
+
+    Args:
+        phase (str): frase que sera gerada
+        filename (str): nome do arquivo a ser salvo
+        ext (str, optional): extensao do arquivo
+
+    Returns:
+        Retorna uma string com caminho do arquivo gerado
+    """
+    filepath = "songs/{}.{}".format(filename, ext)  # caminho para arquivo
+
+    # gera e salva frase pelo gTTS
+    voice = gTTS(phase, lang="pt")
+    voice.save(filepath)
+
+    return filepath
 
 
 def gravar():
@@ -45,9 +65,7 @@ def gravar():
     file.writelines(texto)
     file.close
 
-    voz = gTTS(frase, lang="pt")
-    voz.save("songs/" + arquivo + ".mp3")
-    s.call(['mpg123', "songs/" + arquivo + ".mp3"])
+    s.call(['mpg123', doRecord(frase, arquivo)])
 
 
 def ler():
