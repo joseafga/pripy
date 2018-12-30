@@ -5,8 +5,6 @@ from multiprocessing import Process
 import subprocess as s
 import terminalmenu
 
-# variaveis
-phases = []
 
 def load(callback=None):
     """ Funcao chamada no inicio do programa
@@ -15,7 +13,6 @@ def load(callback=None):
         callback (callable, optional): funcao chamada ao termino do carregamento
     """
     # TODO: fazer uma classe para o programa, estruturar melhor
-    global phases
     phases = []  # redefine a variavel
 
     # abre arquivo `frases` em modo leitura
@@ -35,7 +32,7 @@ def load(callback=None):
 
     # chama funcao de callback
     if (callable(callback)):
-        callback()
+        callback(phases)
 
 
 def text_to_file(phase, filename):
@@ -86,8 +83,10 @@ def ler():
 
 def menu(cmd):
     if cmd == 'add':
+        global main_menu  # pega menu principal para atualizar items
+
         gravar()
-        load()  # recarrega frases
+        load(main_menu.update)  # recarrega frases
     elif cmd == 'exit':
         exit(0)  # sai do programa
     elif '.mp3' in cmd:
@@ -97,11 +96,11 @@ def menu(cmd):
 
 
 if __name__ == '__main__':
-    load()  # TODO melhor isso
-
-    my_menu = terminalmenu.Menu(phases, [
+    main_menu = terminalmenu.Menu([], [
         ['+', 'Adicionar nova frase', 'add'],
         ['q', 'Sair', 'exit']
     ])
-    my_menu.handler = menu
-    my_menu.draw()
+
+    main_menu.handler = menu
+    load(main_menu.update)  # TODO melhorar isso
+    main_menu.draw()

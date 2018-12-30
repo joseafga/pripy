@@ -40,6 +40,17 @@ class Menu():
         """
         pass
 
+    def update(self, items, options=None):
+        """ Atualiza atributos da classe
+
+            Args:
+            items (list): lista com os items exibidos
+            options (list, optional): lista com as opcoes do sistema
+        """
+        self.items = items
+        if options:
+            self.options = options
+
     def choice(self, txt=" > "):
         """ Permite entrada do usuario
 
