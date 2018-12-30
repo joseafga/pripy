@@ -1,12 +1,12 @@
 from gtts import gTTS
 from glob import glob
 from pydub import AudioSegment, playback
+from multiprocessing import Process
 import subprocess as s
 import terminalmenu
 
 # variaveis
 phases = []
-
 
 def load(callback=None):
     """ Funcao chamada no inicio do programa
@@ -57,6 +57,16 @@ def text_to_file(phase, filename):
     return path
 
 
+def play(path):
+    sound = AudioSegment.from_mp3(path)
+    playback.play(sound)
+
+
+def play_async(path):
+    p = Process(target=play, args=(path,))
+    p.start()
+
+
 def gravar():
     frase = input("Digite a frase a ser gravada: ")
     filename = frase.replace(" ", "").lower() + '.mp3'
@@ -66,8 +76,7 @@ def gravar():
     with open('frases', 'a') as file:
         file.write(txt)
 
-    sound = AudioSegment.from_mp3(text_to_file(frase, filename))
-    playback.play(sound)
+    play_async(text_to_file(frase, filename))
 
 
 def ler():
@@ -78,18 +87,17 @@ def ler():
 def menu(cmd):
     if cmd == 'add':
         gravar()
+        load()  # recarrega frases
     elif cmd == 'exit':
-        exit(0)
+        exit(0)  # sai do programa
     elif '.mp3' in cmd:
-        # TODO separar funcao e executar de maneira assincrona
-        sound = AudioSegment.from_mp3('songs/%s' % cmd)
-        playback.play(sound)
+        play_async("songs/%s" % cmd)  # toca o audio
     else:
         print('Opção inválida')
 
 
 if __name__ == '__main__':
-    load()  # TODO recarregar frases ao adicionar nova
+    load()  # TODO melhor isso
 
     my_menu = terminalmenu.Menu(phases, [
         ['+', 'Adicionar nova frase', 'add'],
