@@ -2,6 +2,10 @@ from gtts import gTTS
 from glob import glob
 from pydub import AudioSegment, playback
 import subprocess as s
+import terminalmenu
+
+# variaveis
+phases = []
 
 
 def load(callback=None):
@@ -11,6 +15,7 @@ def load(callback=None):
         callback (callable, optional): funcao chamada ao termino do carregamento
     """
     # TODO: fazer uma classe para o programa, estruturar melhor
+    global phases
     phases = []  # redefine a variavel
 
     # abre arquivo `frases` em modo leitura
@@ -70,15 +75,25 @@ def ler():
     exit(0)
 
 
-def menu():
-    menu = input("O que deseja fazer? (1=gravar, 2-ler) ")
-    if menu == "1":
+def menu(cmd):
+    if cmd == 'add':
         gravar()
-    elif menu == "2":
-        ler()
+    elif cmd == 'exit':
+        exit(0)
+    elif '.mp3' in cmd:
+        # TODO separar funcao e executar de maneira assincrona
+        sound = AudioSegment.from_mp3('songs/%s' % cmd)
+        playback.play(sound)
     else:
-        print("Opção invalida")
+        print('Opção inválida')
 
 
 if __name__ == '__main__':
-    load(menu)
+    load()  # TODO recarregar frases ao adicionar nova
+
+    my_menu = terminalmenu.Menu(phases, [
+        ['+', 'Adicionar nova frase', 'add'],
+        ['q', 'Sair', 'exit']
+    ])
+    my_menu.handler = menu
+    my_menu.draw()
