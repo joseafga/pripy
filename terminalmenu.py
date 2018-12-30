@@ -7,6 +7,7 @@ Menu Interativo para o PRIpy
 :license: MIT, see LICENSE for more details.
 """
 import os
+import time
 
 
 class Menu():
@@ -47,8 +48,6 @@ class Menu():
         """
         choice = input(txt)  # entrada do usuario
 
-        os.system('clear')
-
         # TODO validar
         if choice == '':
             self.draw()
@@ -60,6 +59,7 @@ class Menu():
 
             except KeyError:
                 print("Opção inválida.\n")
+                time.sleep(1)
                 self.draw()
 
         return choice
@@ -73,7 +73,7 @@ class Menu():
         # exibe items
         for item in self.items:
             print(" [{:^3}] {}".format(i, item[0]))
-            self.actions[i] = item[1]
+            self.actions[str(i)] = item[1]
             i += 1
 
         # exibe items do sistema
