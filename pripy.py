@@ -2,6 +2,26 @@ from gtts import gTTS
 import subprocess as s
 
 
+def load(callback=None):
+    """ Funcao chamada no inicio do programa
+
+    Args:
+        callback (callable, optional): funcao chamada ao termino do carregamento
+    """
+    # TODO: fazer uma classe para o programa
+    # variaveis
+    phases = []
+
+    # abre arquivo `frases` em modo leitura
+    with open('frases', 'r') as file:
+        for line in file:
+            phases.append([l.strip() for l in line.split(';')])
+
+    # chama função de callback
+    if (callable(callback)):
+        callback()
+
+
 def gravar():
     frase = input("Digite a frase a ser gravada: ")
     arquivo = frase.replace(" ", "")
