@@ -82,4 +82,5 @@ def menu():
         print("Opção invalida")
 
 
-load(menu)
+if __name__ == '__main__':
+    load(menu)
