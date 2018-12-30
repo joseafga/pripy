@@ -72,9 +72,9 @@ class Menu():
 
         # exibe items
         for item in self.items:
-            i += 1
             print(" [{:^3}] {}".format(i, item[0]))
             self.actions[i] = item[1]
+            i += 1
 
         # exibe items do sistema
         for item in self.options:
