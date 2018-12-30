@@ -63,14 +63,14 @@ def gravar():
     texto.append(frase + ";" + arquivo + ".mp3")
     texto.append("\n")
     file.writelines(texto)
-    file.close
+    file.close()
 
     s.call(['mpg123', doRecord(frase, arquivo)])
 
 
 def ler():
     print("Lendo")
-    exit
+    exit(0)
 
 
 def menu():
