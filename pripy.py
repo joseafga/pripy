@@ -9,9 +9,8 @@ def load(callback=None):
     Args:
         callback (callable, optional): funcao chamada ao termino do carregamento
     """
-    # TODO: fazer uma classe para o programa
-    # variaveis
-    phases = []
+    # TODO: fazer uma classe para o programa, estruturar melhor
+    phases = []  # redefine a variavel
 
     # abre arquivo `frases` em modo leitura
     with open('frases', 'r') as file:
@@ -54,17 +53,14 @@ def text_to_file(phase, filename):
 
 def gravar():
     frase = input("Digite a frase a ser gravada: ")
-    arquivo = frase.replace(" ", "")
-    arquivo = arquivo.lower()
+    filename = frase.replace(" ", "").lower() + '.mp3'
+    txt = "{};{}\n".format(frase, filename)
 
-    file = open('frases', 'a')
-    texto = []
-    texto.append(frase + ";" + arquivo + ".mp3")
-    texto.append("\n")
-    file.writelines(texto)
-    file.close()
+    # adiciona texto ao arquivo
+    with open('frases', 'a') as file:
+        file.write(txt)
 
-    s.call(['mpg123', text_to_file(frase, arquivo + ".mp3")])
+    s.call(['mpg123', text_to_file(frase, filename)])
 
 
 def ler():
