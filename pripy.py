@@ -2,7 +2,6 @@ from gtts import gTTS
 from glob import glob
 from pydub import AudioSegment, playback
 from multiprocessing import Process
-import subprocess as s
 import terminalmenu
 
 
@@ -55,16 +54,27 @@ def text_to_file(phase, filename):
 
 
 def play(path):
+    """ Reproduz um arquivo em formato mp3
+
+    Args:
+        path (str): caminho do arquivo
+    """
     sound = AudioSegment.from_mp3(path)
     playback.play(sound)
 
 
 def play_async(path):
+    """ Reproduz um arquivo em formato mp3 de modo assincrono
+
+    Args:
+        path (str): caminho do arquivo
+    """
     p = Process(target=play, args=(path,))
     p.start()
 
 
 def gravar():
+    """ Grava nova frase manualmente """
     frase = input("Digite a frase a ser gravada: ")
     filename = frase.replace(" ", "").lower() + '.mp3'
     txt = "{};{}\n".format(frase, filename)
@@ -76,12 +86,13 @@ def gravar():
     play_async(text_to_file(frase, filename))
 
 
-def ler():
-    print("Lendo")
-    exit(0)
-
-
 def menu(cmd):
+    """ Menu de comandos
+    Aqui é verificada a entrada do usuario e o exec comando correspondente
+
+    Args:
+        cmd (str): string do comando
+    """
     if cmd == 'add':
         global main_menu  # pega menu principal para atualizar items
 
