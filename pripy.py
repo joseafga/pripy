@@ -24,11 +24,11 @@ def load(callback=None):
             phases.append([l.strip() for l in line.split(';')])
 
     # pega todos arquivos gravados
-    recs = glob("songs/*.mp3")
+    recs = glob("sons/*.mp3")
 
     # verifica gravacoes
     for phase in phases:
-        if "songs/%s" % phase[1] not in recs:
+        if "sons/%s" % phase[1] not in recs:
             # TODO: fazer assincrono
             print("Gravando nova frase: %s" % phase[0])
             text_to_file(phase[0], phase[1])
@@ -48,7 +48,7 @@ def text_to_file(phase, filename):
     Returns:
         Retorna uma string com caminho do arquivo gerado
     """
-    path = "songs/%s" % filename  # caminho para arquivo
+    path = "sons/%s" % filename  # caminho para arquivo
 
     # gera e salva frase pelo gTTS
     voice = gTTS(phase, lang='pt')
@@ -91,7 +91,7 @@ def menu(cmd):
     elif cmd == 'exit':
         exit(0)  # sai do programa
     elif '.mp3' in cmd:
-        play_async("songs/%s" % cmd)  # toca o audio
+        play_async("sons/%s" % cmd)  # toca o audio
     else:
         print('Opção inválida')
 
