@@ -1,5 +1,6 @@
 from gtts import gTTS
 from glob import glob
+from pydub import AudioSegment, playback
 import subprocess as s
 
 
@@ -60,7 +61,8 @@ def gravar():
     with open('frases', 'a') as file:
         file.write(txt)
 
-    s.call(['mpg123', text_to_file(frase, filename)])
+    sound = AudioSegment.from_mp3(text_to_file(frase, filename))
+    playback.play(sound)
 
 
 def ler():
