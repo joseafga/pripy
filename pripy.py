@@ -1,4 +1,5 @@
 from gtts import gTTS
+from glob import glob
 import subprocess as s
 
 
@@ -16,6 +17,16 @@ def load(callback=None):
     with open('frases', 'r') as file:
         for line in file:
             phases.append([l.strip() for l in line.split(';')])
+
+    # pega todos arquivos gravados
+    recs = glob("songs/*.mp3")
+
+    # verifica gravacoes
+    for phase in phases:
+        if 'songs/%s' % phase[1] not in recs:
+            # TODO: gravar automaticamente
+            # gravar()
+            print('Gravando nova frase: %s' % phase[0])
 
     # chama função de callback
     if (callable(callback)):
@@ -54,4 +65,4 @@ def menu():
         print("Opção invalida")
 
 
-menu()
+load(menu)
