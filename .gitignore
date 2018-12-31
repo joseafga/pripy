@@ -1,0 +1,8 @@
+# Linux
+.directory
+
+# Project
+.project
+
+# Cache
+__pycache__
