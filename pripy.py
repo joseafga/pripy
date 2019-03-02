@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from gtts import gTTS
 from glob import glob
 from pydub import AudioSegment, playback
